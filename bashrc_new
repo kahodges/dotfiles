@@ -10,12 +10,11 @@ fi
 
 # default aliases
 alias grep='grep --color=auto'
-alias vimpress="VIMENV=talk vim"
-alias d="sudo docker"
 alias biggest="du -h --max-depth=1 | sort -h"
-alias :q="exit"
 alias j="jobs"
 alias follow="tail -f -n +1"
+alias rcheck='rosdep check --from-paths src --ignore-src'
+alias rdep='rosdep install --from-paths src --ignore-src'
 
 # git aliases
 alias gu='git push'
@@ -169,4 +168,4 @@ export ROS_PYTHON_VERSION=3
 export ROS_MASTER_URI=http://localhost:11311
 
 # WORKSPACES
-source /opt/ros/noetic/setup.bash
+#source /opt/ros/noetic/setup.bash
