@@ -20,10 +20,13 @@ alias rdep='rosdep install --from-paths src --ignore-src'
 alias gu='git push'
 alias gd='git pull'
 alias ga='git add'
+alias gb='git branch'
 alias gs='git status'
 alias gr='git restore'
 alias gf='git fetch'
 alias gc='git commit -m "'
+alias gch='git checkout'
+alias gbn='git checkout -b'
 
 # ls aliases
 alias ls='ls --color=auto'
