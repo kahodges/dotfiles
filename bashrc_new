@@ -168,7 +168,7 @@ export PS1="${nameC}\u${atC}@${hostC}\h:${pathC}\w${gitC}\$(gitPrompt)${pointerC
 export ROS_PYTHON_VERSION=3
 
 # MASTER URI
-export ROS_MASTER_URI=http://localhost:11311
+export ROS_MASTER_URI=http://forestry:11311
 
 # WORKSPACES
-#source /opt/ros/noetic/setup.bash
+source /opt/ros/noetic/setup.bash
