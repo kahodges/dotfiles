@@ -30,7 +30,7 @@ alias gbn='git checkout -b'
 
 # ls aliases
 alias ls='ls --color=auto'
-alias ll='ls -alF'
+alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -168,7 +168,7 @@ export PS1="${nameC}\u${atC}@${hostC}\h:${pathC}\w${gitC}\$(gitPrompt)${pointerC
 export ROS_PYTHON_VERSION=3
 
 # MASTER URI
-export ROS_MASTER_URI=http://forestry:11311
+export ROS_MASTER_URI=http://localhost:11311
 
 # WORKSPACES
 source /opt/ros/noetic/setup.bash
