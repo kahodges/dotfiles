@@ -8,13 +8,18 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# add github ssh-key to keyring
+#ssh-add ~/.ssh/keys/github
+
 # default aliases
+alias own="sudo chown -R kane:kane"
 alias grep='grep --color=auto'
+alias igrep='grep -i'
 alias biggest="du -h --max-depth=1 | sort -h"
 alias j="jobs"
 alias follow="tail -f -n +1"
-alias rcheck='rosdep check --from-paths src --ignore-src'
-alias rdep='rosdep install --from-paths src --ignore-src'
+alias rdcheck='rosdep check --from-paths src --ignore-src'
+alias rdinstall='rosdep install --from-paths src --ignore-src'
 
 # git aliases
 alias gu='git push'
@@ -35,10 +40,9 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # chmod aliases
-alias c777='chmod 777'  # rwxrwxrwx
-alias cdef='chmod 664'  # rw-rw-r--
-alias crw='chmod 600'   # rw-------
-alias cx='chmod 755'    # rwxr-xr-x
+alias everyone='chmod 777'  # rwxrwxrwx
+alias meonly='chmod 600'    # rw-------
+alias xecute='chmod 755'     # rwxr-xr-x
 
 # COLOURS! YAAAY!
 export TERM=xterm-256color
@@ -53,7 +57,6 @@ export VISUAL='vim'
 # I'd quite like for Go to work please.
 #export PATH=${PATH}:/usr/local/go/bin
 #export GOPATH=~
-
 
 # Change up a variable number of directories
 # E.g:
@@ -167,8 +170,11 @@ export PS1="${nameC}\u${atC}@${hostC}\h:${pathC}\w${gitC}\$(gitPrompt)${pointerC
 # PYTHON
 export ROS_PYTHON_VERSION=3
 
-# MASTER URI
-export ROS_MASTER_URI=http://localhost:11311
-
 # WORKSPACES
 source /opt/ros/noetic/setup.bash
+#source ~/temp_ws/devel/setup.bash
+#source /home/kane/forestry_robot_ws/devel/setup.bash
+
+# MASTER URI
+export ROS_MASTER_URI=http://forestry:11311
+#export ROS_MASTER_URI=http://localhost:11311
