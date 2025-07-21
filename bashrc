@@ -8,26 +8,25 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# add github ssh-key to keyring
-#ssh-add ~/.ssh/keys/github
-
 # default aliases
-alias own="sudo chown -R kane:kane"
+alias nuke='rm -rf ./*'
+alias own="sudo chown -R $USER: ."
 alias grep='grep --color=auto'
 alias igrep='grep -i'
 alias biggest="du -h --max-depth=1 | sort -h"
+alias symlink_search="find . -maxdepth 1 -type l -ls"
 alias j="jobs"
 alias follow="tail -f -n +1"
+alias rdinstall='rosdep install -y --from-path src --ignore-src'
 alias rdcheck='rosdep check --from-paths src --ignore-src'
-alias rdinstall='rosdep install --from-paths src --ignore-src'
 
 # git aliases
 alias gu='git push'
 alias gd='git pull'
 alias ga='git add'
-alias gb='git branch'
+alias gb='git branch -a'
 alias gs='git status'
-alias gr='git restore'
+alias gr='git restore --staged .'
 alias gf='git fetch'
 alias gc='git commit -m "'
 alias gch='git checkout'
@@ -43,6 +42,9 @@ alias l='ls -CF'
 alias everyone='chmod 777'  # rwxrwxrwx
 alias meonly='chmod 600'    # rw-------
 alias xecute='chmod 755'     # rwxr-xr-x
+
+# iproute2 - colours
+alias ip='ip --color=auto'
 
 # COLOURS! YAAAY!
 export TERM=xterm-256color
@@ -108,7 +110,7 @@ function virev {
 
 # 'Safe' version of __git_ps1 to avoid errors on systems that don't have it
 function gitPrompt {
-  command -v __git_ps1 > /dev/null && __git_ps1 " (%s)"
+  command -v __git_ps1 > /dev/null && __git_ps1 " [%s]"
 }
 
 # Colours have names too. Stolen from Arch wiki
@@ -146,35 +148,31 @@ bakcyn='\[\e[46m\]'   # Cyan
 bakwht='\[\e[47m\]'   # White
 txtrst='\[\e[0m\]'    # Text Reset
 
-# Prompt colours
-atC="${txtpur}"
-nameC="${txtpur}"
-hostC="${txtpur}"
-pathC="${txtgrn}"
-gitC="${txtpur}"
-pointerC="${txtgrn}"
-normalC="${txtwht}"
-
 # Red name for root
-if [ "${UID}" -eq "0" ]; then 
-  nameC="${txtred}" 
-fi
+# if [ "${UID}" -eq "0" ]; then 
+#   nameC="${txtred}" 
+# fi
 
 # Patent Pending Prompt
-export PS1="${nameC}\u${atC}@${hostC}\h:${pathC}\w${gitC}\$(gitPrompt)${pointerC}▶${normalC} "
+export PS1="${txtylw}▶ ${txtcyn}\w${txtpur}\$(gitPrompt)${txtrst} "
+
+#export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 # ---------------------------------------------------------
 # ROS
 # ---------------------------------------------------------
 
-# PYTHON
-export ROS_PYTHON_VERSION=3
+alias cba='colcon build'
+alias cbs='colcon build --packages-select'
+alias sws='source ./install/setup.bash'
 
-# WORKSPACES
-source /opt/ros/noetic/setup.bash
-#source ~/temp_ws/devel/setup.bash
-#source /home/kane/forestry_robot_ws/devel/setup.bash
+export _colcon_cd_root=-/ros2_install
+export ROS_DISTRO=jazzy
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-# MASTER URI
-export ROS_MASTER_URI=http://forestry:11311
-#export ROS_MASTER_URI=http://localhost:11311
+#source /opt/ros/jazzy/setup.bash
+#source /usr/share/colcon_cd/function/colcon_cd.sh
+
+#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
+
+#export CYCLONEDDS_URI=file://$HOME/.ros/dds/config.xml
