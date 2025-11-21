@@ -8,6 +8,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# Tailscale aliases
+alias ts="tailscale status"
+
 # default aliases
 alias nuke='rm -rf ./*'
 alias own="sudo chown -R $USER: ."
@@ -149,12 +152,12 @@ bakwht='\[\e[47m\]'   # White
 txtrst='\[\e[0m\]'    # Text Reset
 
 # Red name for root
-# if [ "${UID}" -eq "0" ]; then 
-#   nameC="${txtred}" 
-# fi
+if [ "${UID}" -eq "0" ]; then 
+  nameC="${txtred}" 
+fi
 
 # Patent Pending Prompt
-export PS1="${txtylw}▶ ${txtcyn}\w${txtpur}\$(gitPrompt)${txtrst} "
+export PS1="${txtpur}\u:${txtblu}\w${txtpur}\$(gitPrompt) ${txtgrn}>${txtrst} "
 
 #export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
@@ -176,3 +179,4 @@ export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 #export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 
 #export CYCLONEDDS_URI=file://$HOME/.ros/dds/config.xml
+#export CYCLONEDDS_URI=
