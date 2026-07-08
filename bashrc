@@ -1,3 +1,13 @@
+export ROS_DISTRO=
+
+# export nvim
+export PATH="$PATH:/opt/nvim/nvim-linux-x86_64/bin"
+# alias vim="nvim . && clear"
+alias rdis="nvim ${HOME}/.bashrc && clear && source ${HOME}/.bashrc"
+
+# ping test mercury robots
+alias ptest="ssh jump-host 'ping $1'"
+
 # History control
 HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=100000
@@ -10,6 +20,8 @@ fi
 
 # Tailscale aliases
 alias ts="tailscale status"
+alias PERSONAL='sudo tailscale switch k.hodges9248@gmail.com'
+alias WORK='sudo tailscale switch khodges.work1@gmail.com'
 
 # default aliases
 alias nuke='rm -rf ./*'
@@ -24,6 +36,7 @@ alias rdinstall='rosdep install -y --from-path src --ignore-src'
 alias rdcheck='rosdep check --from-paths src --ignore-src'
 
 # git aliases
+alias github='ssh -T git@github.com'
 alias gu='git push'
 alias gd='git pull'
 alias ga='git add'
@@ -41,11 +54,6 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# chmod aliases
-alias everyone='chmod 777'  # rwxrwxrwx
-alias meonly='chmod 600'    # rw-------
-alias xecute='chmod 755'     # rwxr-xr-x
-
 # iproute2 - colours
 alias ip='ip --color=auto'
 
@@ -55,13 +63,7 @@ export VISUAL='vim'
 
 # Obviously.
 #export EDITOR=/usr/bin/vim
-
-# Personal binaries
-#export PATH=${PATH}:~/bin:~/.local/bin:~/etc/scripts
-
-# I'd quite like for Go to work please.
-#export PATH=${PATH}:/usr/local/go/bin
-#export GOPATH=~
+export SYSTEMD_EDITOR=/usr/local/bin/nvim
 
 # Change up a variable number of directories
 # E.g:
@@ -78,37 +80,6 @@ function cu {
         path="${path}../"
     done
     cd $path
-}
-
-
-# Open all modified files in vim tabs
-function vimod {
-    vim -p $(git status -suall | awk '{print $2}')
-}
-
-# Open files modified in a git commit in vim tabs; defaults to HEAD. Pop it in your .bashrc
-# Examples: 
-#     virev 49808d5
-#     virev HEAD~3
-function virev {
-    commit=$1
-    if [ -z "${commit}" ]; then
-      commit="HEAD"
-    fi
-    rootdir=$(git rev-parse --show-toplevel)
-    sourceFiles=$(git show --name-only --pretty="format:" ${commit} | grep -v '^$')
-    toOpen=""
-    for file in ${sourceFiles}; do
-      file="${rootdir}/${file}"
-      if [ -e "${file}" ]; then
-        toOpen="${toOpen} ${file}"
-      fi
-    done
-    if [ -z "${toOpen}" ]; then
-      echo "No files were modified in ${commit}"
-      return 1
-    fi
-    vim -p ${toOpen}
 }
 
 # 'Safe' version of __git_ps1 to avoid errors on systems that don't have it
@@ -157,7 +128,7 @@ if [ "${UID}" -eq "0" ]; then
 fi
 
 # Patent Pending Prompt
-export PS1="${txtpur}\u:${txtblu}\w${txtpur}\$(gitPrompt) ${txtgrn}>${txtrst} "
+export PS1="${txtpur}\u:${txtblu}\W${txtpur}\$(gitPrompt) ${txtgrn}>${txtrst} "
 
 #export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
@@ -170,13 +141,63 @@ alias cbs='colcon build --packages-select'
 alias sws='source ./install/setup.bash'
 
 export _colcon_cd_root=-/ros2_install
-export ROS_DISTRO=jazzy
-export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-#source /opt/ros/jazzy/setup.bash
-#source /usr/share/colcon_cd/function/colcon_cd.sh
+function changeRosDistroEnv {
+    local FILE="$HOME/.bashrc"
+    local NEW_LINE="export ROS_DISTRO="
+
+    cp "$FILE" "${FILE}.backup"
+
+    sed -i -e '1d' "$FILE"
+    sed -i -e "1i\\${NEW_LINE}" "$FILE"
+}
+function getProcessID () {
+    local id=$(ps -xf |grep ros2cli |grep -v grep |awk '{print $1}')
+
+    echo $id
+}
+
+if [[ "${ROS_DISTRO}" == "d" ]]; then
+    export RMW_IMPLEMENTATION=
+    ros2 daemon stop
+    sudo systemctl stop zenohd
+
+    changeRosDistroEnv
+
+elif [[ ! -z "${ROS_DISTRO}" ]]; then
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+    source ~/robot_ws/install/setup.bash
+    id=$(getProcessID)
+
+    if [[ ! -z "${id}" ]]; then
+        echo "$id" > /dev/null
+    else
+        export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+        ros2 daemon start
+        sudo systemctl start zenohd
+    fi
+fi
+
+source /usr/share/colcon_cd/function/colcon_cd.sh
 
 #export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
 
 #export CYCLONEDDS_URI=file://$HOME/.ros/dds/config.xml
-#export CYCLONEDDS_URI=
+export CYCLONEDDS_URI=
+. "$HOME/.cargo/env"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# tailscale alias for exit_nodes
+alias use_exit_node='sudo tailscale up --exit-node=100.118.40.48; tailscale status'
+alias clear_exit_node='sudo tailscale up --exit-node=; tailscale status'
+
+alias steam='flatpak run --branch=stable --arch=x86_64 --command=/app/bin/steamlink --file-forwarding com.valvesoftware.SteamLink --windowed'
+alias updates='cat $HOME/.local/updates/updates.log'
+
+#nerdfetch -e
+
+# temp rm -rf alias
+aexport CYCLONEDDS_URI=
