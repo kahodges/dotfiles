@@ -1,0 +1,62 @@
+return {
+    clangd = {
+        cmd = {
+            "clangd",
+            "--clang-tidy",
+            "--offset-encoding=utf-8",
+        },
+        filetypes = {
+            "c",
+            "cpp",
+            "objc",
+            "objcpp",
+            "cuda",
+        },
+        -- root_markers = {
+        --   ".clangd",
+        --   ".clang-tidy",
+        --   ".clang-format",
+        --   "compile_commands.json",
+        --   "compile_flags.txt",
+        --   "configure.ac", -- AutoTools
+        --   ".git",
+        -- },
+        get_language_id = function(_, ftype)
+            local t = { objc = "objective-c", objcpp = "objective-cpp", cuda = "cuda-cpp" }
+            return t[ftype] or ftype
+        end,
+        capabilities = {
+            textDocument = {
+                completion = {
+                    editsNearCursor = true,
+                },
+            },
+            offsetEncoding = { "utf-8", "utf-16" },
+        },
+
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("my.lsp", {}),
+            callback = function(ev)
+                local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+                if client:supports_method("textDocument/implementation") then
+                    -- create a keymap for vim.lsp.buf.implementation ...
+                end
+
+                -- Auto-format ("lint") on save.
+                -- Usually not needed if server supports "textDocument/willSaveWaitUntil".
+                if
+                    not client:supports_method("textDocument/willSaveWaitUntil")
+                    and client:supports_method("textDocument/formatting")
+                then
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
+                        buffer = ev.buf,
+                        callback = function()
+                            vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
+                        end,
+                    })
+                end
+            end,
+        }),
+    },
+}
