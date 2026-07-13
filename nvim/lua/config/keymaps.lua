@@ -23,7 +23,7 @@ vim.keymap.set("n", "<A-k>", "<cmd>cprev<CR>")
 vim.keymap.set("n", "<leader><leader>e", "<cmd>Ex<CR>", { desc = "Explore" })
 vim.keymap.set("n", "<leader><leader>w", "<cmd>w<CR>", { desc = "Write only" })
 vim.keymap.set("n", "<leader><leader>l", "<cmd>wq<CR>", { desc = "Write and Quit" })
-vim.keymap.set("n", "<leader><leader>q", "<cmd>q!<CR>", { desc = "Quit !" })
+vim.keymap.set("n", "<leader><leader>q", "<cmd>qa!<CR>", { desc = "Quit !" })
 
 -- Buffer Switching
 vim.keymap.set("n", "<leader>bp", "<cmd>bprev<CR>", { desc = "Previous Buffer" })
