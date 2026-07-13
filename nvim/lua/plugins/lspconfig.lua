@@ -84,6 +84,7 @@ local servers = {
   lua_ls = {},
   pyright = {},
   black = {},
+  rust_analyzer = {},
 }
 
 vim.pack.add({
