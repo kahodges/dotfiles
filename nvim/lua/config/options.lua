@@ -51,7 +51,7 @@ vim.opt.relativenumber = true -- relative numbers
 vim.opt.cursorline = true -- highlight cursor line
 vim.opt.wrap = false -- do not wrap lines by default
 vim.opt.signcolumn = "yes" -- keep signcolumn on by default
-vim.opt.scrolloff = 15 -- minimal number of screen lines to keep above and below the cursor
+vim.opt.scrolloff = 24 -- minimal number of screen lines to keep above and below the cursor
 
 vim.opt.tabstop = 4 -- tab width
 vim.opt.shiftwidth = 4 -- indent width
