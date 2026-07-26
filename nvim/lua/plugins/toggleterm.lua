@@ -13,4 +13,6 @@ require("toggleterm").setup({
     end
   end,
   open_mapping = [[<c-\>]],
+  hide_numbers = true,
+  direction = 'float',
 })
