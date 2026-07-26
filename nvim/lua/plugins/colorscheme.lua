@@ -18,12 +18,6 @@ require("kanagawa").setup({
   dimInactive = true,
 })
 
-vim.pack.add({ { src = gh("catppuccin/nvim"), name = "catppuccin" } })
-require("catppuccin").setup({
-  flavour = "frappe",
-})
-
 -- Load the colorscheme here
-vim.cmd.colorscheme("tokyonight-moon")
--- vim.cmd.colorscheme("kanagawa-wave")
--- vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("tokyonight-moon")
+vim.cmd.colorscheme("kanagawa-wave")
