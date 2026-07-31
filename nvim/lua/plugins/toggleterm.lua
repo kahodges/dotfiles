@@ -12,7 +12,10 @@ require("toggleterm").setup({
       return vim.o.columns * 0.4
     end
   end,
-  open_mapping = [[<c-\>]],
+  open_mapping = [[<C-n>]],
   hide_numbers = true,
   direction = 'float',
 })
+
+-- keymaps
+vim.keymap.set('t', '<C-\\>', '<C-\\><C-n>', { noremap = true, silent = true })
