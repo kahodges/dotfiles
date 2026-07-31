@@ -9,7 +9,27 @@ local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
 -- Ensure basic parsers are installed
-local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+local parsers = {
+  'bash',
+  'c',
+  'css',
+  'diff',
+  'html',
+  'javascript',
+  'lua',
+  'luadoc',
+  'markdown',
+  'markdown_inline',
+  'query',
+  'regex',
+  'scss',
+  'svelte',
+  'tsx',
+  'typst',
+  'vim',
+  'vimdoc',
+  'vue',
+}
 require('nvim-treesitter').install(parsers)
 
 ---@param buf integer
