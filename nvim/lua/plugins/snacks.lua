@@ -10,13 +10,25 @@ Snacks.setup({
   dashboard = { enabled = false },
   dim = { enabled = true },
   explorer = { enabled = false },
-  image = { enabled = false },
+  image = {
+    enabled = true,
+    doc = {
+      enabled = true,
+      inline = true,
+      float = true,
+      max_width = 80,
+      max_height = 40,
+      conceal = function (lang, type)
+        return type == "math"
+      end,
+    },
+  },
   indent = { enabled = false },
   input = { enabled = true },
   layout = { enabled = true },
   lazygit = { enabled = true },
   notifier = { enabled = true, timeout = 3000, },
-  quickfile = { enabled = true },
+  quickfile = { enabled = false },
   scope = { enabled = false },
   scratch = { enabled = false },
   scroll = { enabled = true },
@@ -26,14 +38,27 @@ Snacks.setup({
   words = { enabled = true },
   zen = { enabled = true },
 
-  picker = { enabled = false },
+  picker = { enabled = true },
 })
 
 local keymaps = {
+  -- Snacks.image
+  { "<leader>ih", function() Snacks.image.hover() end, desc = "[I]mage [H]over" },
+  -- Snacks.zen
   { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
   { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
-  { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
-  -- { "<c-\\>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
+  -- Snacks.picker
+  -- -- search
+  { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
+  { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
+  { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
+  { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+  { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+  { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
+  -- { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+  -- Snacks.lazygit
+  { "<leader>gg", function() Snacks.lazygit.open() end, desc = "Lazygit" }
 }
 
 for _, map in ipairs(keymaps) do
