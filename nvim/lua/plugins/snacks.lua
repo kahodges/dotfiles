@@ -45,8 +45,8 @@ local keymaps = {
   -- Snacks.image
   { "<leader>ih", function() Snacks.image.hover() end, desc = "[I]mage [H]over" },
   -- Snacks.zen
-  { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-  { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+  { "<leader>Z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+  { "<leader>z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
   -- Snacks.picker
   -- -- search
   { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
