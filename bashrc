@@ -2,7 +2,7 @@ export ROS_DISTRO=
 
 # export nvim
 export PATH="$PATH:/opt/nvim/nvim-linux-x86_64/bin"
-# alias vim="nvim . && clear"
+alias vi="nvim . && clear"
 alias rdis="nvim ${HOME}/.bashrc && clear && source ${HOME}/.bashrc"
 
 # ping test mercury robots
@@ -37,16 +37,17 @@ alias rdcheck='rosdep check --from-paths src --ignore-src'
 
 # git aliases
 alias github='ssh -T git@github.com'
-alias gu='git push'
-alias gd='git pull'
-alias ga='git add'
-alias gb='git branch -a'
-alias gs='git status'
-alias gr='git restore --staged .'
-alias gf='git fetch'
-alias gc='git commit -m "'
-alias gch='git checkout'
-alias gbn='git checkout -b'
+# I use lazygit
+# alias gu='git push'
+# alias gd='git pull'
+# alias ga='git add'
+# alias gb='git branch -a'
+# alias gs='git status'
+# alias gr='git restore --staged .'
+# alias gf='git fetch'
+# alias gc='git commit -m "'
+# alias gch='git checkout'
+# alias gbn='git checkout -b'
 
 # ls aliases
 alias ls='ls --color=auto'
@@ -166,15 +167,15 @@ if [[ "${ROS_DISTRO}" == "d" ]]; then
 
 elif [[ ! -z "${ROS_DISTRO}" ]]; then
     source /opt/ros/${ROS_DISTRO}/setup.bash
-    source ~/robot_ws/install/setup.bash
+    # source ~/robot_ws/install/setup.bash
     id=$(getProcessID)
 
     if [[ ! -z "${id}" ]]; then
         echo "$id" > /dev/null
     else
         export RMW_IMPLEMENTATION=rmw_zenoh_cpp
-        ros2 daemon start
         sudo systemctl start zenohd
+        ros2 daemon start
     fi
 fi
 
@@ -200,4 +201,4 @@ alias updates='cat $HOME/.local/updates/updates.log'
 #nerdfetch -e
 
 # temp rm -rf alias
-aexport CYCLONEDDS_URI=
+alias del="rm -rf"
