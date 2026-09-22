@@ -20,7 +20,7 @@ vim.keymap.set("n", "<A-j>", "<cmd>cnext<CR>")
 vim.keymap.set("n", "<A-k>", "<cmd>cprev<CR>")
 
 -- Write, Quit, Explore
-vim.keymap.set("n", "<leader><leader>e", "<cmd>Ex<CR>", { desc = "Explore" })
+-- vim.keymap.set("n", "<leader><leader>e", "<cmd>Ex<CR>", { desc = "Explore" })
 vim.keymap.set("n", "<leader><leader>w", "<cmd>w<CR>", { desc = "Write only" })
 vim.keymap.set("n", "<leader><leader>l", "<cmd>wq<CR>", { desc = "Write and Quit" })
 vim.keymap.set("n", "<leader><leader>q", "<cmd>qa!<CR>", { desc = "Quit !" })
