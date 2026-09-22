@@ -1,12 +1,8 @@
-export ROS_DISTRO=
+# export ROS_DISTRO=
 
 # export nvim
-export PATH="$PATH:/opt/nvim/nvim-linux-x86_64/bin"
 alias vi="nvim . && clear"
 alias rdis="nvim ${HOME}/.bashrc && clear && source ${HOME}/.bashrc"
-
-# ping test mercury robots
-alias ptest="ssh jump-host 'ping $1'"
 
 # History control
 HISTCONTROL=ignoredups:ignorespace
@@ -20,34 +16,19 @@ fi
 
 # Tailscale aliases
 alias ts="tailscale status"
-alias PERSONAL='sudo tailscale switch k.hodges9248@gmail.com'
-alias WORK='sudo tailscale switch khodges.work1@gmail.com'
 
 # default aliases
-alias nuke='rm -rf ./*'
 alias own="sudo chown -R $USER: ."
 alias grep='grep --color=auto'
 alias igrep='grep -i'
 alias biggest="du -h --max-depth=1 | sort -h"
-alias symlink_search="find . -maxdepth 1 -type l -ls"
 alias j="jobs"
 alias follow="tail -f -n +1"
 alias rdinstall='rosdep install -y --from-path src --ignore-src'
 alias rdcheck='rosdep check --from-paths src --ignore-src'
 
-# git aliases
+# git agent setup
 alias github='ssh -T git@github.com'
-# I use lazygit
-# alias gu='git push'
-# alias gd='git pull'
-# alias ga='git add'
-# alias gb='git branch -a'
-# alias gs='git status'
-# alias gr='git restore --staged .'
-# alias gf='git fetch'
-# alias gc='git commit -m "'
-# alias gch='git checkout'
-# alias gbn='git checkout -b'
 
 # ls aliases
 alias ls='ls --color=auto'
@@ -60,7 +41,6 @@ alias ip='ip --color=auto'
 
 # COLOURS! YAAAY!
 export TERM=xterm-256color
-export VISUAL='vim'
 
 # Obviously.
 #export EDITOR=/usr/bin/vim
@@ -181,24 +161,11 @@ fi
 
 source /usr/share/colcon_cd/function/colcon_cd.sh
 
-#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib
-
-#export CYCLONEDDS_URI=file://$HOME/.ros/dds/config.xml
-export CYCLONEDDS_URI=
 . "$HOME/.cargo/env"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# tailscale alias for exit_nodes
-alias use_exit_node='sudo tailscale up --exit-node=100.118.40.48; tailscale status'
-alias clear_exit_node='sudo tailscale up --exit-node=; tailscale status'
-
-alias steam='flatpak run --branch=stable --arch=x86_64 --command=/app/bin/steamlink --file-forwarding com.valvesoftware.SteamLink --windowed'
-alias updates='cat $HOME/.local/updates/updates.log'
-
-#nerdfetch -e
-
-# temp rm -rf alias
+# purge alias
 alias del="rm -rf"
