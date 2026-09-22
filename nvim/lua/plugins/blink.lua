@@ -19,7 +19,24 @@ require('blink.cmp').setup {
   keymap = { preset = 'super-tab', },
   appearance = { nerd_font_variant = 'mono' },
   completion = {
-    documentation = { auto_show = false }
+    documentation = { auto_show = false },
+    keyword = { range = "prefix" },
+    accept = {
+      auto_brackets = {
+        enabled = true,
+        default_brackets = { "(", ")", "[", "]", "{", "}", "<", ">" },
+        override_brackets_for_filetypes = {},
+        kind_resolution = {
+          enabled = true,
+          blocked_filetypes = { "typescriptreact", "javascriptreact", "vue" },
+        },
+        semantic_token_resolution = {
+          enabled = true,
+          blocked_filetypes = { 'java' },
+          timeout_ms = 400,
+        },
+      },
+    },
   },
   sources = {
     default = { 'lsp', 'path', 'snippets', 'buffer' },
