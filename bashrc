@@ -1,5 +1,3 @@
-# export ROS_DISTRO=
-
 # export nvim
 alias vi="nvim . && clear"
 alias rdis="nvim ${HOME}/.bashrc && clear && source ${HOME}/.bashrc"
@@ -15,13 +13,15 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # Tailscale aliases
-alias ts="tailscale status"
+alias ts="sudo tailscale"
+alias tss="ts status"
 
 # default aliases
 alias own="sudo chown -R $USER: ."
 alias grep='grep --color=auto'
 alias igrep='grep -i'
 alias biggest="du -h --max-depth=1 | sort -h"
+alias symlink_search="find . -maxdepth 1 -type l -ls"
 alias j="jobs"
 alias follow="tail -f -n +1"
 alias rdinstall='rosdep install -y --from-path src --ignore-src'
@@ -41,6 +41,7 @@ alias ip='ip --color=auto'
 
 # COLOURS! YAAAY!
 export TERM=xterm-256color
+export VISUAL='vim'
 
 # Obviously.
 #export EDITOR=/usr/bin/vim
@@ -109,6 +110,7 @@ if [ "${UID}" -eq "0" ]; then
 fi
 
 # Patent Pending Prompt
+export PS1=
 export PS1="${txtpur}\u:${txtblu}\W${txtpur}\$(gitPrompt) ${txtgrn}>${txtrst} "
 
 #export DOCKER_HOST=unix:///run/user/1000/docker.sock
@@ -117,8 +119,8 @@ export PS1="${txtpur}\u:${txtblu}\W${txtpur}\$(gitPrompt) ${txtgrn}>${txtrst} "
 # ROS
 # ---------------------------------------------------------
 
-alias cba='colcon build'
-alias cbs='colcon build --packages-select'
+alias cba='colcon build --symlink-install'
+alias cbs='colcon build --symlink-install --packages-select'
 alias sws='source ./install/setup.bash'
 
 export _colcon_cd_root=-/ros2_install
@@ -154,6 +156,9 @@ elif [[ ! -z "${ROS_DISTRO}" ]]; then
         echo "$id" > /dev/null
     else
         export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+        # export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+        export CYCLONEDDS_URI=
+        # export CYCLONEDDS_URI=file://$HOME/.ros/dds/config.xml
         sudo systemctl start zenohd
         ros2 daemon start
     fi
@@ -161,8 +166,10 @@ fi
 
 source /usr/share/colcon_cd/function/colcon_cd.sh
 
+# Cargo setup
 . "$HOME/.cargo/env"
 
+# nvm setup
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
