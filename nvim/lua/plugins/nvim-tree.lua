@@ -54,6 +54,14 @@ local function my_on_attach(bufnr)
     -- Finally refocus on tree if it was lost
     api.tree.focus()
   end
+
+  local open_dir_at_cursor = function ()
+    local node = api.tree.get_node_under_cursor()
+    if node then
+      local dir = vim.fn.fnamemodify(node.absolute_path, ":h")
+      vim.cmd("ToggleTerm dir=" .. dir)
+    end
+  end
   -- ========================================================================================
   -- [[ keymaps ]]
   -- global
@@ -62,6 +70,7 @@ local function my_on_attach(bufnr)
   -- on_attach
   vim.keymap.set("n", "l", edit_or_open, opts("Edit or Open"))
   vim.keymap.set("n", "L", vsplit_preview, opts("Vsplit Preview"))
+  vim.keymap.set("n", "t", open_dir_at_cursor, opts("Open Term at Cursor"))
   vim.keymap.set("n", "h", api.tree.close, opts("Close"))
   vim.keymap.set("n", "C", api.tree.collapse_all, opts("Collapse All"))
 end

@@ -4,7 +4,9 @@ end
 
 vim.pack.add({ gh("akinsho/toggleterm.nvim") })
 
-require("toggleterm").setup({
+local Toggleterm = require("toggleterm")
+
+Toggleterm.setup({
   size = 20 or function(term)
     if term.direction == "horizontal" then
       return 15
@@ -12,9 +14,10 @@ require("toggleterm").setup({
       return vim.o.columns * 0.4
     end
   end,
+  autochdir = true,
   open_mapping = [[<C-n>]],
   hide_numbers = true,
-  direction = 'float',
+  direction = 'float'
 })
 
 -- keymaps
